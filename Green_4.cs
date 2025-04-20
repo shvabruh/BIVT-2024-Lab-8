@@ -1,14 +1,9 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+
 
 namespace Lab_8
 {
-    class Green_4 : Green
+    public class Green_4 : Green
     {
         private string[] _output;
 
@@ -21,9 +16,11 @@ namespace Lab_8
 
         public override void Review()
         {
+            if (string.IsNullOrEmpty(Input)) return;
             if (Input == null) return;
 
             string[] wordsArray = Input.Split(new[] { ' ', '.', '!', '?', ',', ':', '\"', ';', '–', '(', ')', '[', ']', '{', '}', '/' }, StringSplitOptions.RemoveEmptyEntries);
+            if (wordsArray.Length == 0) return;
 
             for (int i = 0; i < wordsArray.Length; i++)
             {
@@ -32,7 +29,7 @@ namespace Lab_8
 
             // реализуем сортировку пузырьком без стандартного метода Compare,
             // а с написанным методом ManualStringCompare
-            for (int i = 0; i < wordsArray.Length; i++)
+            for (int i = 0; i < wordsArray.Length - 1; i++)
             {
                 for (int j = 0; j < wordsArray.Length - 1 - i; j++)
                 {
