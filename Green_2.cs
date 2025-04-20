@@ -1,11 +1,10 @@
-﻿using System;
-using System.Globalization;
+using System;
 using System.Linq;
 
 
 namespace Lab_8
 {
-    class Green_2 : Green
+    public class Green_2 : Green
     {
         private char[] _output;
 
@@ -22,6 +21,7 @@ namespace Lab_8
             // массив для хранения первых букв, передающихся в Input
             char[] firstLetters = Input.Split(new[] { ' ' ,'.', '!', '?', ',', ':', '\"', ';', '–', '(', ')', '[', ']', '{', '}', '/' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(word => word[0])
+                .Where(c => Char.IsLetter(c))
                 .Select(char.ToLower)
                 .ToArray();
 
