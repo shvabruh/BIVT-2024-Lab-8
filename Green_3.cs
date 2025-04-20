@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+
 
 namespace Lab_8
 {
-    class Green_3 : Green
+    public class Green_3 : Green
     {
         private string[] _output;
         private string _letterSequence;
