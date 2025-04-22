@@ -1,9 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lab_8
 {
@@ -24,10 +18,6 @@ namespace Lab_8
         {
             this.input = input;
         }
-
         public abstract void Review();
-
-        public abstract string ToString();
-
     }
 }
