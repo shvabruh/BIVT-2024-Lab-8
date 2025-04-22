@@ -8,61 +8,67 @@ namespace Lab_8
     public class Green_1 : Green
     {
         private (char, double)[] _output;
-        
+
         public (char, double)[] Output => _output;
 
         public Green_1(string input) : base(input)
         {
-            _output = null;  
+            _output = null;
         }
 
         public override void Review()
         {
             if (Input == null) return;
 
-            // массив для хранения русских букв
-            int[] counts = new int[33]; // 32 буквы + 'ё'
-            int totalLetters = 0;
+            // нормализация
+            string normalized = Input
+                .Replace('ё', 'е')
+                .Replace('Ё', 'Е');
 
-            foreach (var c in Input.ToLowerInvariant())
+            // 1) denomAll — для частот: все буквы
+            int denomAll = normalized.Count(c => Char.IsLetter(c));
+
+            // 2) counts — только русские буквы
+            int[] counts = new int[33];
+            foreach (char ch in normalized)
             {
+                char c = char.ToLowerInvariant(ch);
                 if (IsRussianLetter(c))
-                {
-                    int index = GetRussianLetterIndex(c);
-                    counts[index]++;
-                    totalLetters++;
-                }
+                    counts[GetRussianLetterIndex(c)]++;
             }
 
-            if (totalLetters == 0)
+            // 3) asciiCount — английские a..z
+            int asciiCount = normalized.Count(ch =>
             {
-                _output = Array.Empty<(char, double)>();
-                return;
-            }
+                char c = char.ToLowerInvariant(ch);
+                return c >= 'a' && c <= 'z';
+            });
 
-            // массив для результатов
-            var result = new (char, double)[33];
-            int resultIndex = 0;
+            // 4) russianCount — русские буквы
+            int russianCount = counts.Sum();
 
+            var temp = new (char, double)[33];
+            int ti = 0;
             for (int i = 0; i < counts.Length; i++)
             {
                 if (counts[i] > 0)
                 {
                     char letter = GetRussianLetterByIndex(i);
-                    double frequency = (double)counts[i] / totalLetters;
-                    result[resultIndex++] = (letter, frequency);
+                    double freq = Math.Round((double)counts[i] / denomAll, 4);
+                    temp[ti++] = (letter, freq);
                 }
             }
 
-            _output = result.Take(resultIndex).OrderBy(i => i.Item1).ToArray();
-            
-            //Array.Sort(_output, (x, y) => x.Item1.CompareTo(y.Item1)); возможно неустойчивая сортировка
+            _output = temp
+                .Take(ti)
+                .OrderBy(p => p.Item1)
+                .ToArray();
         }
 
         public override string ToString()
         {
             if (_output == null || _output.Length == 0) return string.Empty;
-            return string.Join(Environment.NewLine, _output.Select(tuple => $"{tuple.Item1} - {FormatNumber(Math.Round(tuple.Item2,4))}"));
+            return string.Join(Environment.NewLine, _output.Select(tuple => $"{tuple.Item1} - {FormatNumber(Math.Round(tuple.Item2, 4))}"));
         }
 
         private static bool IsRussianLetter(char c)
@@ -72,19 +78,17 @@ namespace Lab_8
 
         private static int GetRussianLetterIndex(char c)
         {
-            if (c == 'ё') return 32;
-            return c - 'а';
+            return c == 'ё' ? 32 : c - 'а';
         }
 
         private static string FormatNumber(double number)
         {
-            return number.ToString("G4", CultureInfo.InvariantCulture);
+            return number.ToString("F4", CultureInfo.InvariantCulture);
         }
 
         private static char GetRussianLetterByIndex(int index)
         {
-            if (index == 32) return 'ё';
-            return (char)('а' + index);
+            return index == 32 ? 'ё' : (char)('а' + index);
         }
     }
 
