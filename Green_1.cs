@@ -54,7 +54,7 @@ namespace Lab_8
                 if (counts[i] > 0)
                 {
                     char letter = GetRussianLetterByIndex(i);
-                    double freq = Math.Round((double)counts[i] / denomAll, 4);
+                    double freq = (double)counts[i] / denomAll;
                     temp[ti++] = (letter, freq);
                 }
             }
@@ -68,7 +68,7 @@ namespace Lab_8
         public override string ToString()
         {
             if (_output == null || _output.Length == 0) return string.Empty;
-            return string.Join(Environment.NewLine, _output.Select(tuple => $"{tuple.Item1} - {FormatNumber(Math.Round(tuple.Item2, 4))}"));
+            return string.Join(Environment.NewLine, _output.Select(tuple => $"{tuple.Item1} - {FormatNumber(tuple.Item2)}"));
         }
 
         private static bool IsRussianLetter(char c)
