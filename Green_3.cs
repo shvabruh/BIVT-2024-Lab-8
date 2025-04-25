@@ -9,7 +9,7 @@ namespace Lab_8
         private string[] _output;
         private string _letterSequence;
         public string[] Output => _output;
-        public string LetterSequence => _letterSequence;
+        private string LetterSequence => _letterSequence;
         
         public Green_3(string input, string letterSequence) : base(input)
         {
